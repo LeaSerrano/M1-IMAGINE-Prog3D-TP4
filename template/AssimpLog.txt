@@ -1,0 +1,8 @@
+Info,  T0: Load ./data/ToyCar.glb
+Info,  T0: Found a possible importer: glTF Importer; trying signature-based detection
+Info,  T0: Found a possible importer: glTF2 Importer; trying signature-based detection
+Info,  T0: Found a matching importer for this file format: glTF2 Importer.
+Info,  T0: Import root directory is './data/'
+Info,  T0: Entering post processing pipeline
+Info,  T0: CalcTangentsProcess finished. Tangents have been calculated
+Info,  T0: Leaving post processing pipeline
