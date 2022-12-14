@@ -1,8 +1,0 @@
-Info,  T0: Load ../data/bunny.obj
-Info,  T0: Found a matching importer for this file format: Wavefront Object Importer.
-Info,  T0: Import root directory is '../data/'
-Info,  T0: Entering post processing pipeline
-Info,  T0: GenVertexNormalsProcess finished. Vertex normals have been calculated
-Error, T0: Failed to compute tangents; need UV data in channel0
-Info,  T0: JoinVerticesProcess finished | Verts in: 208353 out: 34834 | ~83.2813
-Info,  T0: Leaving post processing pipeline

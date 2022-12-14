@@ -21,7 +21,8 @@ struct Material {
 	glm::vec3 m_ambient;
 	glm::vec3 m_specular;
 	float m_shininess;
-	glm::vec3 m_light;
+	glm::vec3 m_lightColor;
+	glm::vec3 m_lightPos;
 
 	inline void check() {
 		if (m_program == 0) {

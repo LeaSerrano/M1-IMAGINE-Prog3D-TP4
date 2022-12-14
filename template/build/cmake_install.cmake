@@ -1,4 +1,4 @@
-# Install script for directory: /home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template
+# Install script for directory: /home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -42,13 +42,6 @@ if(NOT DEFINED CMAKE_OBJDUMP)
   set(CMAKE_OBJDUMP "/usr/bin/objdump")
 endif()
 
-if(NOT CMAKE_INSTALL_LOCAL_ONLY)
-  # Include the install script for each subdirectory.
-  include("/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/build/thirdparties/glm/cmake_install.cmake")
-  include("/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/build/thirdparties/assimp/cmake_install.cmake")
-
-endif()
-
 if(CMAKE_INSTALL_COMPONENT)
   set(CMAKE_INSTALL_MANIFEST "install_manifest_${CMAKE_INSTALL_COMPONENT}.txt")
 else()
@@ -57,5 +50,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

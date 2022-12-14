@@ -1,7 +1,7 @@
 CMakeFiles/tp.dir/src/stb_image.cpp.o: \
- /home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/src/stb_image.cpp \
+ /home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/src/stb_image.cpp \
  /usr/include/stdc-predef.h \
- /home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/include/./stb_image.h \
+ /home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/include/./stb_image.h \
  /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \

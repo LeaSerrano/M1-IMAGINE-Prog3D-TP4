@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/include -I/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/thirdparties/glm -I/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/thirdparties/assimp/code/../include -I/home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/build/thirdparties/assimp/code/../include
+CXX_INCLUDES = -I/home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/include
 
 CXX_FLAGS = 
 

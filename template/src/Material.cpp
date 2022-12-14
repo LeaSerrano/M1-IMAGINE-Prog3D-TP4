@@ -22,14 +22,18 @@ void Material::init() {
 	// TODO : set initial parameters
 	m_color = {1.0, 1.0, 1.0, 1.0};
 
-	m_diffuse = {1.0f, 1.0f, 1.0f};
-	m_ambient = {1.0, 0.0, 0.0};
-	m_specular = {0.5, 0.5, 0.5};
-	m_shininess = 128;
+	m_diffuse = {0.07568, 0.61424, 0.07568};
+	m_ambient = {0.0215, 0.1745, 0.0215};
+	m_specular = {0.633, 0.727811, 0.633};
+	m_shininess = 0.6;
 
-	m_light = {1, 0, 0};
+	m_lightColor = {1.0, 0.5, 0.31};
+	m_lightPos = {0.0, 0.0, -1.0};
 
+	//Ex1
 	//m_texture = loadTexture2DFromFilePath("data/marble.png");
+
+
 	//m_texture_bump = loadTexture2DFromFilePath("data/bump.png");
 }
 
@@ -48,21 +52,51 @@ void Material::internalBind() {
 	// bind parameters
 	GLint color = getUniform("color");
 	glUniform4fv(color, 1, glm::value_ptr(m_color));
+
 	if (m_texture != 0) {
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 		glActiveTexture(GL_TEXTURE0);
 		glUniform1i(getUniform("colorTexture"), GL_TEXTURE0);
 	}
 
+	// TODO : Add your custom parameters here
+
+	GLint lightColor = getUniform("lightColor");
+	glUniform3fv(lightColor, 1, glm::value_ptr(m_lightColor));
+
+	GLint lightPos = getUniform("lightPos");
+	glUniform3fv(lightPos, 1, glm::value_ptr(m_lightPos));
+
+	/*GLint ambient = getUniform("ambient");
+	glUniform3fv(ambient, 1, glm::value_ptr(m_ambient));
+
+	GLint diffuse = getUniform("diffuse");
+	glUniform3fv(diffuse, 1, glm::value_ptr(m_diffuse));
+
+	GLint specular = getUniform("specular");
+	glUniform3fv(specular, 1, glm::value_ptr(m_specular));
+
+	GLint shininess = getUniform("shininess");
+	glUniform1f(shininess, m_shininess);*/
+
 	/*glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, m_specular);
     glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, m_diffuse);
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, m_ambient);
     glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, m_shininess);*/
 
-	GLint lightPos = getUniform("lightPos");
-	glUniform4fv(lightPos, 1, glm::value_ptr(m_light));
 
-	// TODO : Add your custom parameters here
+	/*GLint lightPos = getUniform("lightPos");
+	glUniform4fv(lightPos, 1, glm::value_ptr(m_light));*/
+
+	/*unsigned int lightVAO;
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+
+	//glBindBuffer(GL_ARRAY_BUFFER, Mesh.positionsBuffer);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);*/
+
 }
 
 void Material::setMatrices(glm::mat4& projectionMatrix, glm::mat4& viewMatrix, glm::mat4& modelMatrix)

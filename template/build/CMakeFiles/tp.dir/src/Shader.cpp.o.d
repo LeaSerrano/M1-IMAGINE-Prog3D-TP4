@@ -1,5 +1,5 @@
 CMakeFiles/tp.dir/src/Shader.cpp.o: \
- /home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/src/Shader.cpp \
+ /home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/src/Shader.cpp \
  /usr/include/stdc-predef.h /usr/include/stdio.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -180,4 +180,4 @@ CMakeFiles/tp.dir/src/Shader.cpp.o: \
  /usr/include/c++/11/bits/sstream.tcc /usr/include/c++/11/stdlib.h \
  /usr/include/string.h /usr/include/strings.h /usr/include/GL/glew.h \
  /usr/include/c++/11/cstddef /usr/include/GL/glu.h /usr/include/GL/gl.h \
- /home/e20190003227/M1-IMAGINE/Programmation3D/prog-3D-2022/template/include/Shader.h
+ /home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/include/Shader.h
