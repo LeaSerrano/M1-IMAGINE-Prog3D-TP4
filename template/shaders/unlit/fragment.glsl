@@ -4,6 +4,7 @@ in vec3 o_positionWorld;
 in vec3 o_normalWorld;
 in vec2 o_uv0;
 in vec3 o_lightPos;
+in mat3 TNB;
 
 out vec4 FragColor;
 
@@ -16,19 +17,16 @@ uniform vec4 color;
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 
-/*struct Material {
+struct Material {
     vec3 ambient;
     vec3 diffuse;
     vec3 specular;
     float shininess;
-}
+};
 
-uniform Material material;*/
+uniform Material material;
 
-/*uniform vec3 ambient;
-uniform vec3 diffuse;
-uniform vec3 specular;
-uniform float shininess;*/
+uniform sampler2D normalTexture;
 
 
 void main() {
@@ -36,50 +34,31 @@ void main() {
     //FragColor = texture(colorTexture, o_uv0) * color;
 
     //Ex2
+    //Couleur de l'objet
     //FragColor = color;
+
+    //Ajout de la lumière
     //FragColor = vec4(lightColor, 1.0) * color;
 
-    //ambient 
-    /*vec3 ambient = lightColor * material.ambient;
+    //Phong avec normal map
+    /*vec3 normalMap = texture(normalTexture, o_uv0).rgb;
+    normalMap = normalize(normalMap * 2.0 - 1.0);*/
+    vec3 normalMap = texture(normalTexture, o_uv0).rgb;
+    normalMap = normalMap * 2.0 - 1.0;
+    normalMap = normalize(TNB * normalMap);
 
-    //diffuse
-    vec3 norm = normalize(o_normalWorld);
-    vec3 lightDir = normalize(o_lightPos - o_positionWorld);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = lightColor * (diff * material.diffuse);
+    vec3 ambient = material.ambient * lightColor;
 
-    //specular
-    vec3 viewDir = normalize(-o_positionWorld);
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = lightColor * (spec * material.specular);
-
-    vec3 result = ambient + diffuse + specular;
-    FragColor = vec4(result, 1.0);*/
-
-    
-    float ambientStrenght = 0.1;
-    vec3 ambient = ambientStrenght * lightColor;
-
-    /*vec4 result = vec4(ambient, 1.0) * color;
-    FragColor = result;*/
-
-    vec3 norm = normalize(o_normalWorld);
     vec3 lightDir = normalize(lightPos - o_positionWorld);
 
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor;
-
-    /*vec4 result = vec4((ambient + diffuse), 1.0) * color;
-    FragColor = result;*/
-
-    float specularStrength = 0.5;
+    float diff = max(dot(normalMap, lightDir), 0.0);
+    vec3 diffuse = (diff * material.diffuse) * lightColor;
 
     vec3 viewDir = normalize(-o_positionWorld);
-    vec3 reflectDir = reflect(-lightDir, norm);
+    vec3 reflectDir = reflect(-lightDir, normalMap);
 
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = specularStrength * spec * lightColor;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = (material.specular * spec) * lightColor;
 
     vec4 result = vec4((ambient + diffuse + specular), 1.0) * color;
     FragColor = result;

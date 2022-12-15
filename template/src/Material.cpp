@@ -22,19 +22,20 @@ void Material::init() {
 	// TODO : set initial parameters
 	m_color = {1.0, 1.0, 1.0, 1.0};
 
-	m_diffuse = {0.07568, 0.61424, 0.07568};
-	m_ambient = {0.0215, 0.1745, 0.0215};
-	m_specular = {0.633, 0.727811, 0.633};
+	m_ambient = {0.21, 0.12, 0.05};
+	m_diffuse = {0.71, 0.42, 0.18};
+	m_specular = {0.39, 0.27, 0.16};
 	m_shininess = 0.6;
 
-	m_lightColor = {1.0, 0.5, 0.31};
-	m_lightPos = {0.0, 0.0, -1.0};
+	m_lightColor = {1.0, 1.0, 1.0};
+	m_lightPos = {0.0, -1.0, 0.0};
 
-	//Ex1
+	//Ex1 chargement de la texture
 	//m_texture = loadTexture2DFromFilePath("data/marble.png");
 
+	//Ex2 chargement de la normal map
+	m_texture_bump = loadTexture2DFromFilePath("data/bump.png");
 
-	//m_texture_bump = loadTexture2DFromFilePath("data/bump.png");
 }
 
 void Material::clear() {
@@ -67,35 +68,21 @@ void Material::internalBind() {
 	GLint lightPos = getUniform("lightPos");
 	glUniform3fv(lightPos, 1, glm::value_ptr(m_lightPos));
 
-	/*GLint ambient = getUniform("ambient");
+	GLint ambient = getUniform("material.ambient");
 	glUniform3fv(ambient, 1, glm::value_ptr(m_ambient));
 
-	GLint diffuse = getUniform("diffuse");
+	GLint diffuse = getUniform("material.diffuse");
 	glUniform3fv(diffuse, 1, glm::value_ptr(m_diffuse));
 
-	GLint specular = getUniform("specular");
+	GLint specular = getUniform("material.specular");
 	glUniform3fv(specular, 1, glm::value_ptr(m_specular));
 
-	GLint shininess = getUniform("shininess");
-	glUniform1f(shininess, m_shininess);*/
+	GLint shininess = getUniform("material.shininess");
+	glUniform1f(shininess, m_shininess);
 
-	/*glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, m_specular);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, m_diffuse);
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, m_ambient);
-    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, m_shininess);*/
-
-
-	/*GLint lightPos = getUniform("lightPos");
-	glUniform4fv(lightPos, 1, glm::value_ptr(m_light));*/
-
-	/*unsigned int lightVAO;
-	glGenVertexArrays(1, &lightVAO);
-	glBindVertexArray(lightVAO);
-
-	//glBindBuffer(GL_ARRAY_BUFFER, Mesh.positionsBuffer);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3*sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);*/
+	glBindTexture(GL_TEXTURE_2D, m_texture_bump);
+	glActiveTexture(GL_TEXTURE1);
+	glUniform1i(getUniform("normalTexture"), GL_TEXTURE1);
 
 }
 
