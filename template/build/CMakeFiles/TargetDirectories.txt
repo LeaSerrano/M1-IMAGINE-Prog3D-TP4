@@ -1,3 +1,0 @@
-/home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/build/CMakeFiles/tp.dir
-/home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/build/CMakeFiles/edit_cache.dir
-/home/lea/M1-IMAGINE/Programmation3D/M1-IMAGINE-Prog3D-TP4/template/build/CMakeFiles/rebuild_cache.dir

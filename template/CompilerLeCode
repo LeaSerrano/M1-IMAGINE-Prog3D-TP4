@@ -1,2 +1,0 @@
-faire cmake tp dans le dossier build
-puis lancer ./build/tp ./data/ToyCar.glb depuis le dossier template
