@@ -11,7 +11,7 @@
 
 CIBLE = tp
 SRCS =  src/Camera.cpp tp.cpp src/Trackball.cpp src/Shader.cpp
-LIBS =  -lglut -lGLU -lGL -lm -lGLEW -lpthread
+LIBS =  -lglut -lGLU -lGL -lm -lGLEW -lpthread -lglfw
 
 #########################################################"
 

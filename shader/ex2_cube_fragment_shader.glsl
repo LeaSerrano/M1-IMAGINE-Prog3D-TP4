@@ -10,6 +10,8 @@ in mat3 o_TNB;
 
 uniform vec3 color;
 
+uniform vec3 cameraPos;
+
 uniform vec3 lightColor;
 uniform vec3 lightPos;
 
@@ -34,7 +36,7 @@ void main() {
     float diff = max(dot(normalMap, lightDir), 0.0);
     vec3 diffuse = (diff * diffuseMaterial) * lightColor;
 
-    vec3 viewDir = normalize(-o_positionWorld);
+    vec3 viewDir = normalize(cameraPos-o_positionWorld);
     vec3 reflectDir = reflect(-lightDir, normalMap);
 
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininessMaterial);

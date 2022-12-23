@@ -26,6 +26,7 @@
 
 #include <algorithm>
 #include <GL/glut.h>
+#include <GLFW/glfw3.h>
 #include <float.h>
 #include "src/Vec3.h"
 #include "src/Camera.h"
@@ -41,6 +42,7 @@ GLuint programIDsquare;
 GLuint programIDcubeEx2;
 GLuint programIDcubeEx3;
 GLuint programIDskybox;
+GLuint programIDcubeEx4;
 
 float scale;
 Vec3 translate;
@@ -94,6 +96,7 @@ unsigned int loadCubemap(std::vector<std::string> facesPath) {
 	return textureID;
 }  
 
+
 glm::mat4 modifModelMatrix;
 static Camera camera;
 glm::vec3 camera_position   = glm::vec3(0.0f, 3.0f, 6.0f);
@@ -106,7 +109,8 @@ GLuint squareVertexBuffer, squareNormalBuffer, squareTextureBuffer;
 unsigned int squareTexture;
 
 GLuint cubeVertexBuffer, cubeNormalBuffer, cubeTextureBuffer, cubeTangenteBuffer;
-unsigned int cubeTexture;
+GLuint cubeAlbedoTextureBuffer, cubeNormalTextureBuffer, cubeMetallicTextureBuffer, cubeRoughnessTextureBuffer, cubeAOTextureBuffer;
+unsigned int cubeTexture, cubeAlbedoTexture, cubeNormalTexture, cubeMetallicTexture, cubeRoughnessTexture, cubeAOTexture;
 
 GLuint skyboxVertexBuffer;
 unsigned int cubeMapTexture;
@@ -445,7 +449,7 @@ std::vector<std::string> facesPath;
         glBufferData(GL_ARRAY_BUFFER, sizeof(cubeTangente), &cubeTangente, GL_STATIC_DRAW);*/
 
         //Ex3
-        glGenBuffers(1, &cubeVertexBuffer);
+        /*glGenBuffers(1, &cubeVertexBuffer);
         glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBuffer);
         glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertex), &cubeVertex, GL_STATIC_DRAW);
 
@@ -466,8 +470,106 @@ std::vector<std::string> facesPath;
             "data/back.jpg"
         };
 
-        cubeMapTexture = loadCubemap(facesPath);
+        cubeMapTexture = loadCubemap(facesPath);*/
 
+
+        //Ex4
+        glGenBuffers(1, &cubeVertexBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertex), &cubeVertex, GL_STATIC_DRAW);
+
+        glGenBuffers(1, &cubeNormalBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, cubeNormalBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(cubeNormals), &cubeNormals, GL_STATIC_DRAW);
+
+        glGenBuffers(1, &cubeTextureBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, cubeTextureBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(cubeTextureData), &cubeTextureData, GL_STATIC_DRAW);
+
+
+        glGenTextures (1 , &cubeAlbedoTexture);
+        glBindTexture (GL_TEXTURE_2D , cubeAlbedoTexture);
+
+        int width1 , height1 , nbChannels1;
+        unsigned char * data1 = stbi_load ( "data/albedoMap.jpg" , &width1 , &height1 , &nbChannels1 , 0);
+
+        if (data1) {
+            glTexImage2D (GL_TEXTURE_2D ,0 ,GL_RGB ,width1 ,height1 ,0 ,GL_RGB ,GL_UNSIGNED_BYTE ,data1 );
+            glGenerateMipmap (GL_TEXTURE_2D );
+
+        } else {
+            std::cout << " Failed to load texture " << std::endl ;
+        }
+
+        stbi_image_free(data1);
+
+
+        glGenTextures (1 , &cubeNormalTexture);
+        glBindTexture (GL_TEXTURE_2D , cubeNormalTexture);
+
+        int width2 , height2 , nbChannels2;
+        unsigned char * data2 = stbi_load ( "data/normalMap.jpg" , &width2 , &height2 , &nbChannels2 , 0);
+
+        if (data2) {
+            glTexImage2D (GL_TEXTURE_2D ,0 ,GL_RGB ,width2 ,height2 ,0 ,GL_RGB ,GL_UNSIGNED_BYTE ,data2 );
+            glGenerateMipmap (GL_TEXTURE_2D );
+
+        } else {
+            std::cout << " Failed to load texture " << std::endl ;
+        }
+
+        stbi_image_free(data2);
+
+
+        glGenTextures (1 , &cubeMetallicTexture);
+        glBindTexture (GL_TEXTURE_2D , cubeMetallicTexture);
+
+        int width3 , height3 , nbChannels3;
+        unsigned char * data3 = stbi_load ( "data/metallicMap.jpg" , &width3 , &height3 , &nbChannels3 , 0);
+
+        if (data3) {
+            glTexImage2D (GL_TEXTURE_2D ,0 ,GL_RGB ,width3 ,height3 ,0 ,GL_RGB ,GL_UNSIGNED_BYTE ,data3 );
+            glGenerateMipmap (GL_TEXTURE_2D );
+
+        } else {
+            std::cout << " Failed to load texture " << std::endl ;
+        }
+
+        stbi_image_free(data3);
+
+
+        glGenTextures (1 , &cubeRoughnessTexture);
+        glBindTexture (GL_TEXTURE_2D , cubeRoughnessTexture);
+
+        int width4 , height4 , nbChannels4;
+        unsigned char * data4 = stbi_load ( "data/roughnessMap.jpg" , &width4 , &height4 , &nbChannels4 , 0);
+
+        if (data4) {
+            glTexImage2D (GL_TEXTURE_2D ,0 ,GL_RGB ,width4 ,height4 ,0 ,GL_RGB ,GL_UNSIGNED_BYTE ,data4 );
+            glGenerateMipmap (GL_TEXTURE_2D );
+
+        } else {
+            std::cout << " Failed to load texture " << std::endl ;
+        }
+
+        stbi_image_free(data4);
+
+
+        glGenTextures (1 , &cubeAOTexture);
+        glBindTexture (GL_TEXTURE_2D , cubeAOTexture);
+
+        int width5 , height5 , nbChannels5;
+        unsigned char * data5 = stbi_load ( "data/aoMap.jpg" , &width5, &height5 , &nbChannels5 , 0);
+
+        if (data5) {
+            glTexImage2D (GL_TEXTURE_2D ,0 ,GL_RGB ,width5 ,height5 ,0 ,GL_RGB ,GL_UNSIGNED_BYTE ,data5 );
+            glGenerateMipmap (GL_TEXTURE_2D );
+
+        } else {
+            std::cout << " Failed to load texture " << std::endl ;
+        }
+
+        stbi_image_free(data5);
 
     }
 
@@ -537,7 +639,7 @@ std::vector<std::string> facesPath;
 
 
         //Ex3
-        glUseProgram(programIDcubeEx3);
+        /*glUseProgram(programIDcubeEx3);
 
         glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBuffer);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -555,7 +657,6 @@ std::vector<std::string> facesPath;
         glUseProgram(programIDskybox);
         
         glDepthFunc(GL_LEQUAL);
-        //glDepthMask(GL_FALSE);
 
         glBindBuffer(GL_ARRAY_BUFFER, skyboxVertexBuffer);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
@@ -565,9 +666,45 @@ std::vector<std::string> facesPath;
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMapTexture);
         glDrawArrays(GL_TRIANGLES, 0, 12*3);
         
-        glDepthFunc(GL_LESS);
-        //glDepthMask(GL_TRUE);
+        glDepthFunc(GL_LESS);*/
 
+
+        //Ex4
+        glUseProgram(programIDcubeEx4);
+
+        glBindBuffer(GL_ARRAY_BUFFER, cubeVertexBuffer);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+
+        glBindBuffer(GL_ARRAY_BUFFER, cubeNormalBuffer);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+
+        glBindBuffer(GL_ARRAY_BUFFER, cubeTextureBuffer);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(2);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cubeAlbedoTexture);
+        glUniform1i(glGetUniformLocation(programIDcubeEx4 , "albedoMap"), 0);
+
+            glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, cubeNormalTexture);
+        glUniform1i(glGetUniformLocation(programIDcubeEx4 , "normalMap"), 1);
+
+            glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, cubeMetallicTexture);
+        glUniform1i(glGetUniformLocation(programIDcubeEx4 , "metallicMap"), 2);
+      
+            glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, cubeRoughnessTexture);
+        glUniform1i(glGetUniformLocation(programIDcubeEx4 , "roughnessMap"), 3);
+
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, cubeAOTexture);
+        glUniform1i(glGetUniformLocation(programIDcubeEx4 , "aoMap"), 3);
+
+        glDrawArrays(GL_TRIANGLES, 0, 12*3);
 
     }
 };
@@ -697,34 +834,9 @@ void openOFF( std::string const & filename,
 
 
 // ------------------------------------
-/*GLfloat light_position1[4];
-GLfloat light_color[4];
-GLfloat ambient[4];
-GLfloat diffuse[4];
-GLfloat specular[4];
-GLfloat shininess;*/
-
-/*void initLight () {
-
-    GLfloat light_position1[4] = {0.0f, 4.0f, 4.0f, 0.0f};
-    GLfloat direction1[3] = {-52.0f,-16.0f,-50.0f};
-    GLfloat color1[4] = {1.0f, 1.0f, 1.0f, 1.0f};
-    GLfloat ambient[4] = {0.2125f, 0.1275f, 0.054f, 1.f};
-
-GLfloat diffuse[4] = {0.714, 0.4284, 0.18144, 1.f};
-
-    glLightfv (GL_LIGHT1, GL_POSITION, light_position1);
-    glLightfv (GL_LIGHT1, GL_SPOT_DIRECTION, direction1);
-    glLightfv (GL_LIGHT1, GL_DIFFUSE, diffuse);
-    glLightfv (GL_LIGHT1, GL_SPECULAR, color1);
-    glLightModelfv (GL_LIGHT_MODEL_AMBIENT, ambient);
-    glEnable (GL_LIGHT1);
-    glEnable (GL_LIGHTING);
-}*/
 
 void init () {
     camera.resize (SCREENWIDTH, SCREENHEIGHT);
-    //initLight ();
     glCullFace (GL_BACK);
     glEnable (GL_CULL_FACE);
     glDepthFunc (GL_LESS);
@@ -845,10 +957,12 @@ void draw () {
 
     float shininess = 0.6;
 
-    glUniform1f(glGetUniformLocation(programIDcubeEx2, "shininessMaterial"), shininess);*/
+    glUniform1f(glGetUniformLocation(programIDcubeEx2, "shininessMaterial"), shininess);
+
+    glUniform3fv(glGetUniformLocation(programIDcubeEx2, "cameraPos"), 1, glm::value_ptr(camPos));*/
 
     //Ex3
-    glUseProgram(programIDcubeEx3);
+    /*glUseProgram(programIDcubeEx3);
 
     glm::mat4 modelMatrixCube, viewMatrixCube, projectionMatrixCube;
     glm::vec3 pos = glm::vec3(1.75, 0.25, 1.5);
@@ -882,7 +996,37 @@ void draw () {
 
     glUniformMatrix4fv(glGetUniformLocation(programIDskybox, "view"), 1 , GL_FALSE, &viewMatrixSkybox[0][0]);
     glUniformMatrix4fv(glGetUniformLocation(programIDskybox, "projection"), 1 , GL_FALSE, &projectionMatrixSkybox[0][0]);
-    glUniformMatrix4fv(glGetUniformLocation(programIDskybox, "model"), 1, false, &modelMatrixSkybox[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(programIDskybox, "model"), 1, false, &modelMatrixSkybox[0][0]);*/
+
+
+    //Ex4
+    glUseProgram(programIDcubeEx4);
+
+    glm::mat4 modelMatrixCubeEx4, viewMatrixCubeEx4, projectionMatrixCubeEx4;
+
+    float X; float Y; float Z;
+    camera.getPos(X, Y, Z);
+    glm::vec3 camPos = {X, Y, Z};
+
+    viewMatrixCubeEx4 = glm::lookAt(camPos, camera_target, camera_up);
+    projectionMatrixCubeEx4 = glm::perspective(glm::radians(45.0f), 4.0f/3.0f, 0.1f, 100.0f);
+    modelMatrixCubeEx4 = glm::mat4(1.0f);
+
+    glUniformMatrix4fv(glGetUniformLocation(programIDcubeEx4, "view"), 1 , GL_FALSE, &viewMatrixCubeEx4[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(programIDcubeEx4, "projection"), 1 , GL_FALSE, &projectionMatrixCubeEx4[0][0]);
+    glUniformMatrix4fv(glGetUniformLocation(programIDcubeEx4, "model"), 1, false, &modelMatrixCubeEx4[0][0]);
+
+    glUniform3fv(glGetUniformLocation(programIDcubeEx4, "cameraPos"), 1, glm::value_ptr(camPos));
+
+
+    glm::vec3 lightPos = {1.5f, 0.f, 0.0f};
+
+    glm::vec3 lightColor = {15.0, 15.0, 15.0};
+
+    
+    glUniform3fv(glGetUniformLocation(programIDcubeEx4, "lightPos"), 1, glm::value_ptr(lightPos));
+    glUniform3fv(glGetUniformLocation(programIDcubeEx4, "lightColor"), 1, glm::value_ptr(lightColor));
+
 
     cube.drawObjectsBuffer();
 }
@@ -1062,12 +1206,6 @@ void motion (int x, int y) {
         camera.zoom (float (y-lastZoom)/SCREENHEIGHT);
         lastZoom = y;
     }
-
-    /*if (cam_moved) {
-        glm::mat4 R = rotate_y_deg(identity_mat4(), -cam_heading);
-        glUseProgram(shader_programme);
-        glUniformMatrix4fv(V_loc, 1, GL_FALSE, R.m);
-    }   */
 }
 
 
@@ -1104,8 +1242,11 @@ int main (int argc, char ** argv) {
     //programIDcubeEx2 = load_shaders("shader/ex2_cube_vertex_shader.glsl", "shader/ex2_cube_fragment_shader.glsl");
 
     //Ex3
-    programIDcubeEx3 = load_shaders("shader/ex3_cube_vertex_shader.glsl", "shader/ex3_cube_fragment_shader.glsl");
-    programIDskybox = load_shaders("shader/ex3_skybox_vertex_shader.glsl", "shader/ex3_skybox_fragment_shader.glsl");
+    /*programIDcubeEx3 = load_shaders("shader/ex3_cube_vertex_shader.glsl", "shader/ex3_cube_fragment_shader.glsl");
+    programIDskybox = load_shaders("shader/ex3_skybox_vertex_shader.glsl", "shader/ex3_skybox_fragment_shader.glsl");*/
+
+    //Ex4
+    programIDcubeEx4 = load_shaders("shader/ex4_vertex_shader.glsl", "shader/ex4_fragment_shader.glsl");
 
     cube.initObjectsBuffers();
 
@@ -1117,6 +1258,7 @@ int main (int argc, char ** argv) {
     glDeleteProgram(programIDcubeEx2);
     glDeleteProgram(programIDcubeEx3);
     glDeleteProgram(programIDskybox);
+    glDeleteProgram(programIDcubeEx4);
 
     return EXIT_SUCCESS;
 }
